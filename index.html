@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hand Shooter – Aim & Fire with Your Fingers!</title>
+  <meta name="description" content="A gesture-controlled space shooter. Point your finger to aim and make a gun shape to fire. No keyboard needed!"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <canvas id="bgCanvas"></canvas>
+  <video id="webcam" playsinline autoplay muted></video>
+  <canvas id="gameCanvas"></canvas>
+  <canvas id="landmarkCanvas"></canvas>
+
+  <!-- HUD -->
+  <div class="hud" id="hud">
+    <div class="hud-block">
+      <span class="hud-label">SCORE</span>
+      <span class="hud-value" id="scoreVal">0</span>
+    </div>
+    <div class="hud-center-block">
+      <div class="gesture-pill" id="gesturePill">
+        <span id="gestureIcon">✋</span>
+        <span id="gestureText">WAITING</span>
+      </div>
+    </div>
+    <div class="hud-block right">
+      <span class="hud-label">LIVES</span>
+      <div class="lives-row" id="livesRow">
+        <span>❤️</span><span>❤️</span><span>❤️</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ammo bar -->
+  <div class="ammo-bar-wrap" id="ammoWrap">
+    <div class="ammo-label">AMMO</div>
+    <div class="ammo-track">
+      <div class="ammo-fill" id="ammoFill"></div>
+    </div>
+  </div>
+
+  <!-- Gesture guide bottom -->
+  <div class="gesture-guide" id="gestureGuide">
+    <div class="guide-item">
+      <span class="guide-hand">☝️</span>
+      <span>Point to aim</span>
+    </div>
+    <div class="guide-sep">|</div>
+    <div class="guide-item">
+      <span class="guide-hand">✌️</span>
+      <span>V sign (index + middle) to shoot</span>
+    </div>
+    <div class="guide-sep">|</div>
+    <div class="guide-item">
+      <span class="guide-hand">✊</span>
+      <span>Fist = shield</span>
+    </div>
+  </div>
+
+  <!-- Start Screen -->
+  <div class="overlay" id="startScreen">
+    <div class="overlay-card glass">
+      <div class="title-eyebrow">GESTURE-CONTROLLED</div>
+      <h1>HAND<span class="accent"> SHOOTER</span></h1>
+      <p class="tagline">No controller. No keyboard.<br/>Your hand <em>is</em> the weapon.</p>
+      <div class="guide-cards">
+        <div class="guide-card"><div class="gc-icon">☝️</div><div class="gc-text"><strong>Point</strong><br/>Aim your crosshair</div></div>
+        <div class="guide-card"><div class="gc-icon">✌️</div><div class="gc-text"><strong>V Sign</strong><br/>Index + middle = FIRE</div></div>
+        <div class="guide-card"><div class="gc-icon">✊</div><div class="gc-text"><strong>Fist</strong><br/>Activate shield</div></div>
+      </div>
+      <button class="btn-start" id="startBtn">
+        <span class="btn-text">LAUNCH GAME</span>
+        <span class="btn-shine"></span>
+      </button>
+      <p class="note">Webcam required · Best in good lighting</p>
+    </div>
+  </div>
+
+  <!-- Game Over -->
+  <div class="overlay hidden" id="gameOverScreen">
+    <div class="overlay-card glass">
+      <div class="title-eyebrow">MISSION FAILED</div>
+      <h2>GAME<span class="accent"> OVER</span></h2>
+      <div class="stat-row">
+        <div class="stat"><span class="stat-label">SCORE</span><span class="stat-val" id="finalScore">0</span></div>
+        <div class="stat"><span class="stat-label">BEST</span><span class="stat-val" id="bestScore">0</span></div>
+        <div class="stat"><span class="stat-label">KILLS</span><span class="stat-val" id="finalKills">0</span></div>
+      </div>
+      <button class="btn-start" id="restartBtn">
+        <span class="btn-text">PLAY AGAIN</span>
+        <span class="btn-shine"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- New Wave Banner -->
+  <div class="wave-banner hidden" id="waveBanner">WAVE <span id="waveNum">2</span></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  <script src="game.js"></script>
+</body>
+</html>

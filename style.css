@@ -1,0 +1,149 @@
+/* ========================================
+   HAND SHOOTER – style.css
+   Sci-fi dark neon theme
+   ======================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #020510;
+  --card:    rgba(5, 10, 30, 0.88);
+  --cyan:    #00f5ff;
+  --magenta: #ff2d78;
+  --orange:  #ff8c00;
+  --green:   #39ff14;
+  --text:    #d0e8ff;
+  --muted:   #4a6080;
+  --glow-c:  0 0 20px rgba(0,245,255,0.5);
+  --glow-m:  0 0 20px rgba(255,45,120,0.6);
+  --r:       16px;
+}
+
+html, body { width:100%; height:100%; overflow:hidden; background:var(--bg); font-family:'Outfit',sans-serif; color:var(--text); }
+
+/* Canvases */
+#bgCanvas      { position:fixed; inset:0; z-index:0; }
+#gameCanvas    { position:fixed; inset:0; z-index:2; }
+#landmarkCanvas{ position:fixed; inset:0; z-index:3; pointer-events:none; }
+#webcam        { display:none; }
+
+/* HUD */
+.hud {
+  position:fixed; top:0; left:0; right:0; z-index:10;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 28px;
+  background: linear-gradient(180deg, rgba(2,5,16,0.95) 0%, transparent 100%);
+  border-bottom:1px solid rgba(0,245,255,0.12);
+}
+.hud-block { display:flex; flex-direction:column; gap:3px; min-width:90px; }
+.hud-block.right { align-items:flex-end; }
+.hud-label { font-family:'Orbitron',monospace; font-size:9px; letter-spacing:3px; color:var(--muted); }
+.hud-value { font-family:'Orbitron',monospace; font-size:32px; font-weight:900; color:var(--cyan); text-shadow:var(--glow-c); }
+.lives-row { display:flex; gap:4px; font-size:18px; }
+.hud-center-block { display:flex; align-items:center; justify-content:center; }
+.gesture-pill {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(0,245,255,0.08); border:1px solid rgba(0,245,255,0.25);
+  border-radius:50px; padding:8px 24px;
+  font-family:'Orbitron',monospace; font-size:13px; font-weight:700; letter-spacing:2px;
+  color:var(--cyan); text-shadow:var(--glow-c);
+  transition:background 0.25s, border-color 0.25s;
+}
+.gesture-pill.fire   { background:rgba(255,45,120,0.2); border-color:var(--magenta); color:var(--magenta); text-shadow:var(--glow-m); }
+.gesture-pill.shield { background:rgba(57,255,20,0.12); border-color:var(--green);   color:var(--green); }
+#gestureIcon { font-size:22px; }
+
+/* Ammo Bar */
+.ammo-bar-wrap {
+  position:fixed; bottom:60px; left:50%; transform:translateX(-50%);
+  z-index:10; display:flex; align-items:center; gap:12px;
+}
+.ammo-label { font-family:'Orbitron',monospace; font-size:9px; letter-spacing:3px; color:var(--muted); }
+.ammo-track { width:200px; height:8px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; border:1px solid rgba(0,245,255,0.2); }
+.ammo-fill { height:100%; background:linear-gradient(90deg, var(--cyan), var(--magenta)); border-radius:4px; transition:width 0.15s ease; }
+
+/* Gesture guide */
+.gesture-guide {
+  position:fixed; bottom:16px; left:50%; transform:translateX(-50%);
+  z-index:10; display:flex; align-items:center; gap:18px;
+  background:rgba(2,5,16,0.7); border:1px solid rgba(0,245,255,0.1);
+  border-radius:40px; padding:8px 28px;
+}
+.guide-item { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
+.guide-hand { font-size:18px; }
+.guide-sep  { color:rgba(255,255,255,0.15); }
+
+/* Overlays */
+.overlay {
+  position:fixed; inset:0; z-index:100;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(2,5,16,0.8); backdrop-filter:blur(14px);
+}
+.overlay.hidden { display:none; }
+.glass {
+  background:var(--card);
+  border:1px solid rgba(0,245,255,0.2);
+  border-radius:24px;
+  padding:52px 64px;
+  text-align:center;
+  max-width:520px; width:92%;
+  box-shadow:0 0 80px rgba(0,245,255,0.12), 0 0 0 1px rgba(255,255,255,0.04);
+  animation:cardIn 0.55s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes cardIn { from{opacity:0;transform:scale(.85) translateY(24px)} to{opacity:1;transform:none} }
+.title-eyebrow { font-family:'Orbitron',monospace; font-size:10px; letter-spacing:5px; color:var(--muted); margin-bottom:12px; }
+h1 { font-family:'Orbitron',monospace; font-size:50px; font-weight:900; letter-spacing:-1px; line-height:1; }
+h2 { font-family:'Orbitron',monospace; font-size:42px; font-weight:900; }
+.accent { color:var(--cyan); text-shadow:var(--glow-c); }
+.tagline { color:var(--muted); margin:16px 0 30px; font-size:15px; line-height:1.7; }
+
+.guide-cards { display:flex; gap:14px; margin-bottom:36px; }
+.guide-card {
+  flex:1; background:rgba(0,245,255,0.05); border:1px solid rgba(0,245,255,0.15);
+  border-radius:14px; padding:18px 10px;
+}
+.gc-icon { font-size:32px; margin-bottom:8px; }
+.gc-text { font-size:12px; color:var(--text); line-height:1.6; }
+
+/* Stats */
+.stat-row { display:flex; gap:28px; justify-content:center; margin:28px 0 36px; }
+.stat { display:flex; flex-direction:column; gap:4px; align-items:center; }
+.stat-label { font-family:'Orbitron',monospace; font-size:9px; letter-spacing:3px; color:var(--muted); }
+.stat-val { font-family:'Orbitron',monospace; font-size:38px; font-weight:900; color:var(--cyan); text-shadow:var(--glow-c); }
+
+/* Start Button */
+.btn-start {
+  position:relative; overflow:hidden;
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:18px 56px; border:none; border-radius:50px;
+  background:linear-gradient(135deg, #7c3aed, var(--cyan));
+  font-family:'Orbitron',monospace; font-size:14px; font-weight:700; letter-spacing:3px;
+  color:#fff; cursor:pointer;
+  box-shadow:0 4px 32px rgba(0,245,255,0.35);
+  transition:transform .2s, box-shadow .2s;
+}
+.btn-start:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 8px 48px rgba(0,245,255,0.55); }
+.btn-start:active { transform:scale(.97); }
+.btn-shine {
+  position:absolute; inset:0;
+  background:linear-gradient(135deg, rgba(255,255,255,.22), transparent 60%);
+  pointer-events:none;
+}
+.note { margin-top:18px; font-size:11px; color:rgba(74,96,128,.8); }
+
+/* Wave Banner */
+.wave-banner {
+  position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+  z-index:50; font-family:'Orbitron',monospace; font-size:52px; font-weight:900;
+  color:var(--cyan); text-shadow:0 0 60px var(--cyan);
+  animation:wavePop .8s cubic-bezier(.34,1.56,.64,1) both;
+  pointer-events:none;
+}
+.wave-banner.hidden { display:none; }
+@keyframes wavePop { from{opacity:0;transform:translate(-50%,-50%) scale(.4)} to{opacity:1;transform:translate(-50%,-50%) scale(1)} }
+
+/* Screen flash */
+#screenFlash {
+  position:fixed; inset:0; z-index:9; pointer-events:none;
+  opacity:0; transition:opacity .08s;
+}
